@@ -86,9 +86,8 @@ class Graph {
     let ytick_spacing = (this.yrange.range / 5);
     ytick_spacing = ytick_spacing < 1 ? ytick_spacing.toFixed(2) : ytick_spacing.toFixed(0);
     let ytick_amount = (this.yrange.range / ytick_spacing).toFixed(2);
-    let sorted_ys = this.ys.sort();
     for (let i = 0; i < ytick_amount; i++) {
-      let y = (sorted_ys[0] + i*ytick_spacing).toFixed(2);
+      let y = (this.ys[0] + i*ytick_spacing).toFixed(2);
       console.log(y);
       line(this.toCanvasX(this.xrange.min), this.toCanvasY(y), this.toCanvasX(this.xrange.min)+offset, this.toCanvasY(y));
       text(y, this.toCanvasX(this.xrange.min)+offset, this.toCanvasY(y)-offset);
