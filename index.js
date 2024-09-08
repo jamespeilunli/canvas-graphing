@@ -30,6 +30,7 @@ function sortXY(x, y) {
   let new_xs = pairs.map(pair => pair[0]);
   let new_ys = pairs.map(pair => pair[1]);
 
+  console.log("E", x, y)
   return { new_xs, new_ys };
 }
 
@@ -38,6 +39,7 @@ class Graph {
     let sorted = sortXY(xs, ys);
     this.xs = sorted.new_xs;
     this.ys = sorted.new_ys;
+    console.log(xs, ys)
     this.offset = offset;
     this.xrange = {
       min: Math.min(...xs)-offset,
@@ -84,9 +86,9 @@ class Graph {
     let ytick_spacing = (this.yrange.range / 5);
     ytick_spacing = ytick_spacing < 1 ? ytick_spacing.toFixed(2) : ytick_spacing.toFixed(0);
     let ytick_amount = (this.yrange.range / ytick_spacing).toFixed(2);
-    console.log(ytick_amount, ytick_spacing);
+    let sorted_ys = this.ys.sort();
     for (let i = 0; i < ytick_amount; i++) {
-      let y = (this.ys[0] + i*ytick_spacing).toFixed(2);
+      let y = (sorted_ys[0] + i*ytick_spacing).toFixed(2);
       console.log(y);
       line(this.toCanvasX(this.xrange.min), this.toCanvasY(y), this.toCanvasX(this.xrange.min)+offset, this.toCanvasY(y));
       text(y, this.toCanvasX(this.xrange.min)+offset, this.toCanvasY(y)-offset);
