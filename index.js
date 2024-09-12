@@ -30,7 +30,6 @@ function sortXY(x, y) {
   let new_xs = pairs.map(pair => pair[0]);
   let new_ys = pairs.map(pair => pair[1]);
 
-  console.log("E", x, y)
   return { new_xs, new_ys };
 }
 
@@ -39,7 +38,6 @@ class Graph {
     let sorted = sortXY(xs, ys);
     this.xs = sorted.new_xs;
     this.ys = sorted.new_ys;
-    console.log(xs, ys)
     this.offset = offset;
     this.xrange = {
       min: Math.min(...xs)-offset,
@@ -75,20 +73,19 @@ class Graph {
 
     let xtick_spacing = (this.xrange.range / 10);
     xtick_spacing = xtick_spacing < 1 ? xtick_spacing.toFixed(2) : xtick_spacing.toFixed(0);
-    let xtick_amount = (this.xrange.range / xtick_spacing).toFixed(2);
+    let xtick_amount = (this.xrange.range / xtick_spacing).toFixed(0);
     for (let i = 0; i < xtick_amount; i++) {
       let x = (this.xs[0] + i*xtick_spacing).toFixed(2);
-      console.log(x);
       line(this.toCanvasX(x), this.toCanvasY(this.yrange.min), this.toCanvasX(x), this.toCanvasY(this.yrange.min) - offset);
       text(x, this.toCanvasX(x), this.toCanvasY(this.yrange.min)-offset);
     }
 
+    let sorted_ys = this.ys.toSorted((a, b) => a - b);
     let ytick_spacing = (this.yrange.range / 5);
     ytick_spacing = ytick_spacing < 1 ? ytick_spacing.toFixed(2) : ytick_spacing.toFixed(0);
-    let ytick_amount = (this.yrange.range / ytick_spacing).toFixed(2);
+    let ytick_amount = (this.yrange.range / ytick_spacing).toFixed(0);
     for (let i = 0; i < ytick_amount; i++) {
-      let y = (this.ys[0] + i*ytick_spacing).toFixed(2);
-      console.log(y);
+      let y = (sorted_ys[0] + i*ytick_spacing).toFixed(2);
       line(this.toCanvasX(this.xrange.min), this.toCanvasY(y), this.toCanvasX(this.xrange.min)+offset, this.toCanvasY(y));
       text(y, this.toCanvasX(this.xrange.min)+offset, this.toCanvasY(y)-offset);
     }
@@ -113,7 +110,6 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   let xs = document.getElementById("xs").value.split(", ").map((x) => parseFloat(x));
   let ys = document.getElementById("ys").value.split(", ").map((y) => parseFloat(y));
-  console.log(xs, ys)
   
   let graph = new Graph(xs, ys);
   graph.draw();
