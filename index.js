@@ -34,11 +34,10 @@ function sortXY(x, y) {
 }
 
 class Graph {
-  constructor(xs, ys, offset=1) {
+  constructor(xs, ys, offset=0) {
     let sorted = sortXY(xs, ys);
     this.xs = sorted.new_xs;
     this.ys = sorted.new_ys;
-    this.offset = offset;
     this.xrange = {
       min: Math.min(...xs)-offset,
       max: Math.max(...xs)+offset,
@@ -52,12 +51,12 @@ class Graph {
   }
 
   toCanvasX(graph_x) {
-    let offset = 5;
+    let offset = 25;
     return (graph_x - this.xrange.min) / this.xrange.range * (canvas.width - offset*2) + offset;
   }
 
   toCanvasY(graph_y) {
-    let offset = 5;
+    let offset = 25;
     return canvas.height - ((graph_y - this.yrange.min) / this.yrange.range * (canvas.height - offset*2) + offset);
   }
 
@@ -77,7 +76,7 @@ class Graph {
     for (let i = 0; i < xtick_amount; i++) {
       let x = (this.xs[0] + i*xtick_spacing).toFixed(2);
       line(this.toCanvasX(x), this.toCanvasY(this.yrange.min), this.toCanvasX(x), this.toCanvasY(this.yrange.min) - offset);
-      text(x, this.toCanvasX(x), this.toCanvasY(this.yrange.min)-offset);
+      text(x, this.toCanvasX(x), this.toCanvasY(this.yrange.min)+3*offset);
     }
 
     let sorted_ys = this.ys.toSorted((a, b) => a - b);
